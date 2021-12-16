@@ -1,0 +1,28 @@
+{
+  "name": "pp-player",
+  "version": "1.0.0",
+  "description": "Mediaplayer support platlist - mode fullscreen",
+  "main": "pp-player.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carlos-sweb/pp-player.js.git"
+  },
+  "keywords": [
+    "mediaplyer",
+    "fullscreen"
+  ],
+  "author": "Carlos Illesca",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/carlos-sweb/pp-player.js/issues"
+  },
+  "homepage": "https://github.com/carlos-sweb/pp-player.js#readme",
+  "dependencies": {
+    "pp-element": "^1.0.1",
+    "pp-events": "^1.2.1",
+    "pp-is": "^1.0.7"
+  }
+}
