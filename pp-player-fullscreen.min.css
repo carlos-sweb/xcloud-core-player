@@ -1,0 +1,1 @@
+body,html{margin:0;padding:0}body{width:100%;height:100%;display:block;float:left;background-color:#000}.hide{visibility:hidden;z-index:-1;display:none;position:absolute}.show{visibility:visible;z-index:1;display:block;position:absolute;object-fit:fill;width:100%;height:100%;cursor:none}

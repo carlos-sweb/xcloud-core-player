@@ -4,41 +4,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>pp-player</title>
-  <style>
-  html,body{margin:0px;padding:0px;}
-  .hide{
-    visibility: hidden;
-    z-index:-1;
-    display:none;
-    position:absolute;
-  }
-  .show{
-    visibility: visible;
-    z-index: 1;
-    display:block;
-    position:absolute;
-    object-fit: fill;
-    width:100%;
-    height:100%;
-  }
-  </style>
+  <title>Player</title>
+  <link rel="stylesheet" href="pp-player-fullscreen.min.css">
 </head>
 <body>
 <div pp-player="main" ></div>
-
 <script type="text/javascript" src="node_modules/pp-is/pp-is.min.js" ></script>
 <script type="text/javascript" src="node_modules/pp-events/pp-events.min.js" ></script>
 <script type="text/javascript" src="node_modules/pp-element/pp-element.min.js" ></script>
 <script type="text/javascript" src="./pp-player.js" ></script>
 <script type="text/javascript">
 
+    var player = new ppPlayer({
+      view:'main',
+      playlist:[
+        //"./media/16.mp4",
+        "./media/17.mp4",
+        "./media/13.mp4"]
+    });
 
 
-var player = new ppPlayer({
-  view:'main',
-  playlist:["./media/16.mp4","./media/17.mp4","./media/13.mp4"]
-});
+    var playlistUpdate = [
+      "./media/71.mp4",
+      "./media/72.mp4",
+      "./media/73.mp4"];
+
+
+    setTimeout(function(){
+       player.setPlaylistUpdate( playlistUpdate , 170 );
+    },1500);
+
+    player.Event.on('trackPlay',function( data ){
+        console.log("----------------------------------------");
+        console.log(data);
+        console.log("----------------------------------------");
+    });
 
 </script>
 </body>

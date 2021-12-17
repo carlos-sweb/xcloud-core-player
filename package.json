@@ -4,7 +4,8 @@
   "description": "Mediaplayer support platlist - mode fullscreen",
   "main": "pp-player.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "minJs": "",
+    "minCss" : "minify pp-player-fullscreen.css > pp-player-fullscreen.min.css"
   },
   "repository": {
     "type": "git",
