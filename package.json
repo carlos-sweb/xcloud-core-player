@@ -1,7 +1,7 @@
 {
   "name": "xcloud-core-player",
   "version": "1.0.0",
-  "description": "Mediaplayer support platlist - mode fullscreen",
+  "description": "MediaPlayer support playlist - mode fullscreen",
   "main": "xcloud-core-player.js",
   "scripts": {
     "compile": "terser --output xcloud-core-player.min.js --compress --mangle --comments false -- xcloud-core-player.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/carlos-sweb/pp-player.js.git"
+    "url": "git+https://github.com/carlos-sweb/xcloud-core-player.git"
   },
   "keywords": [
     "mediaplyer",
@@ -18,9 +18,9 @@
   "author": "Carlos Illesca",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/carlos-sweb/pp-player.js/issues"
+    "url": "https://github.com/carlos-sweb/xcloud-core-player/issues"
   },
-  "homepage": "https://github.com/carlos-sweb/pp-player.js#readme",
+  "homepage": "https://github.com/carlos-sweb/xcloud-core-player#readme",
   "dependencies": {
     "pp-element": "^1.0.1",
     "pp-events": "^1.2.1",
