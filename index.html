@@ -14,32 +14,32 @@
 <script type="text/javascript" src="node_modules/pp-element/pp-element.min.js" ></script>
 <script type="text/javascript" src="./pp-player.js" ></script>
 <script type="text/javascript">
-
+    // =========================================================================
+    var playlist = [
+      //"./media/16.mp4",
+      "./media/17.mp4",
+      "./media/13.mp4"]
+    // =========================================================================
     var player = new ppPlayer({
-      view:'main',
-      playlist:[
-        //"./media/16.mp4",
-        "./media/17.mp4",
-        "./media/13.mp4"]
+      view:'main'
     });
-
-
-    var playlistUpdate = [
-      "./media/71.mp4",
-      "./media/72.mp4",
-      "./media/73.mp4"];
-
-
-    setTimeout(function(){
-       player.setPlaylistUpdate( playlistUpdate , 170 );
-    },1500);
-
-    player.Event.on('trackPlay',function( data ){
+    // =========================================================================
+    setTimeout(()=>{
+      player.setPlaylistUpdate( ['./media/72.mp4'] , 170 );
+      setTimeout(()=>{
+          player.setPlaylistUpdate( [] , 500 );
+          setTimeout(()=>{
+            player.setPlaylistUpdate(['./media/13.mp4'],900);
+          },120000);
+      },40000);
+    },1000);
+    // =========================================================================
+    player.Event.on('trackPlay', ( data ) => {
         console.log("----------------------------------------");
         console.log(data);
         console.log("----------------------------------------");
     });
-
+    // =========================================================================
 </script>
 </body>
 </html>

@@ -22,7 +22,6 @@
   }
 
 })(function( root , exports , _is , _events , _element  ) {
-
 // =============================================================================
 /**
  *@param {NodeElement} el - Elemento DOM para ser afectado
@@ -59,6 +58,20 @@
       (this.getIndex()+1) : 0;
     }
     // =========================================================================
+    this.waitForPlaylist = function(){
+        console.log("waitForPlaylist Work....");
+        setTimeout(function(){
+            if( this.update ){
+              this.applyUpdate();
+              // Por que el applyUpdate establece el index en -1
+              this.index = 0;
+              this.containerReady();
+            }else{
+              this.waitForPlaylist();
+            }
+        }.bind(this),5000);
+    }
+    // =========================================================================
     this.setPlaylistUpdate = function( newPlaylist , id ){
        _is.isArray(newPlaylist,function(value){
          this.update = true;
@@ -73,7 +86,10 @@
         this.playlist = this.playlistUpdate;
         this.update = false;
         this.ID = this.ID_update;
-        //this.Event.emit('playlistUpdate');
+        if( this.playlistLength() == 0 ){
+          this.container.html('');
+          this.waitForPlaylist();
+        }        
       }
     }
     // =========================================================================
@@ -145,22 +161,28 @@
         this.play(); // le da play al video.show
         // =====================================================================
       }.bind(this,playerShow,playerHide));
-
     }
     // =========================================================================
     this.containerReady = function(){
       if( this.playlistLength() > 0 ){
-            var htmlText = getPlayerHtml( this.getTrack(this.getIndex()) , this.getIndex() , true , "A" , this.ID );
-            htmlText +=getPlayerHtml( this.getTrack(this.nextIndex()) , this.nextIndex() , false , "B" , this.ID);
-            // ==========================================================
-            this.container.html(htmlText);
+            // Verificamos que los tag video no esten creados
+            var videoTag = this.container.elem.querySelectorAll("video.show,video.hide");
+            if( videoTag.length == 0 ){
+              var htmlText = getPlayerHtml( this.getTrack(this.getIndex()) , this.getIndex() , true , "A" , this.ID );
+              htmlText +=getPlayerHtml( this.getTrack(this.nextIndex()) , this.nextIndex() , false , "B" , this.ID);
+              // Insertando los tag video
+              this.container.html(htmlText);
+            }
             // ==========================================================
             // Escuchamos el evento que da termino a la reproducción del video
-            this.container.elem.querySelectorAll("video").forEach(function( pVideo ){
-                  ppElement( pVideo ).on('ended', this.changePlayer.bind(this) );
+            this.container.elem.querySelectorAll("video")
+            .forEach(function( pVideo ){
+              pVideo.addEventListener('ended',this.changePlayer.bind(this));
             }.bind(this));
             // ==========================================================
             this.Event.emit("playlistReady");
+      }else{
+          this.waitForPlaylist();
       }
     }
 
@@ -168,12 +190,32 @@
     this.Event.on('containerReady', this.containerReady.bind(this) );
     this.Event.on('playlistReady',this.play.bind(this));
     // ==========================================================
+    /**
+    *@name ppPlayer#index
+    *@Number
+    *@description - indice de reproducción de la lista de reproducción
+    **/
     this.index = ppIs.isUndefined( options.index ) ? 0 : options.index ;
+    /**
+    *@name ppPlayer#container
+    *@ElementNode
+    *@description - contenedor html para las etiquetas video
+    **/
     // ==========================================================
     this.container = null;
     // ==========================================================
+    /**
+    *@name ppPlayer#playlist
+    *@array
+    *@description -  Contenedor de las pistas a reproducir
+   **/
     this.playlist = [];
     // ==========================================================
+    /**
+    *@name ppPlayer#getTrack
+    *@function
+    *@return Retorna la url de la pista a reproducir
+   **/
     this.getTrack = function( at ){
         return this.playlist[at];
     }
@@ -192,7 +234,5 @@
     }.bind(this) )
     // ==========================================================
   }
-
   return ppPlayer;
-
-})
+});
