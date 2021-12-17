@@ -1,18 +1,26 @@
 /*!!
  * Power Panel player.js <https://github.com/carlos-sweb/pp-player.js>
  * @author Carlos Illesca
- * @version 1.0.0 (2021/12/15 23:02 PM)
+ * @version 1.0.0 (2021/12/17 19:07 PM)
  * Released under the MIT License
  */
 (function(factory) {
+
   var root = typeof self == 'object' && self.self === self && self ||
-            typeof global == 'object' && global.global === global && global;
+  typeof global == 'object' && global.global === global && global;
+
   if (typeof define === 'function' && define.amd) {
-    define(['ppIs' ,'ppEvents' , 'ppElement' , 'exports'], function(ppIs,ppEvents,ppElement,exports) {
+    // -------------------------------------------------------------------------
+    define(
+      [ 'ppIs' ,'ppEvents' , 'ppElement' , 'exports'],
+      function(
+        ppIs , ppEvents , ppElement , exports
+      ){
       root.ppPlayer = factory(root, exports, ppIs, ppEvents,ppElement );
     });
+    // -------------------------------------------------------------------------
   } else if (typeof exports !== 'undefined') {
-    var ppIs = {}, ppEvents={},ppElement={};
+    var ppIs = {}, ppEvents = {} , ppElement = {};
     try { ppIs = require('pp-is'); } catch (e) {}
     try { ppEvents = require('pp-events'); } catch (e) {}
     try { ppElement = require('pp-element'); } catch (e) {}
@@ -37,33 +45,56 @@
       return  `<video data-id='${ID}' preload='auto' pp-player-id='${iden}' src='${src}' data-index='${index}' class='${show == true ? 'show':'hide'}'  ></video>`;
   }
   // ===========================================================================
+  /**
+   *@param {NodeElement} player - Elemento Dom tag video}
+   *@param {Boolean} show - Estado del player show o hide
+   * se agregan clases css
+   **/
   var changeShowPlayer = function( player,  show  ){
     player.removeClass( (show === true ? "hide" :  "show") );
     player.addClass( (show === true ? "show" :  "hide") );
   }
   // ===========================================================================
   var ppPlayer = function( options ){
+    // identificador del playlist
     this.ID = 0;
     // =========================================================================
+    // identificador del playlist por actualizar
     this.ID_update = -1;
     // =========================================================================
+    // manejador de eventos
     this.Event = new ppEvents();
     // =========================================================================
+    // Estado para la actualización del playlist
     this.update = false;
     // =========================================================================
+    // Contendor del urls para el playlist
     this.playlistUpdate = [];
     // =========================================================================
+    /**
+     * @description - Retorna el index que sigue del actual
+     * para realizar un pre-carga del recurso
+     * si el index a entregar supera el largo del playlist
+     * retorna una posicion inicial 0 para reiniciar el playlist
+     * @return
+     * */
     this.nextIndex = function(){
       return (this.getIndex()+1) < this.playlistLength() ?
       (this.getIndex()+1) : 0;
     }
     // =========================================================================
+    /**
+     * @function waitForPlaylist
+     * @description - function que esta en un loop ejecutandose
+     * a si misma hasta que se entregue un playlist para actualizar
+     * al momento de detectar la actualización se rompe el loop
+     *
+     * */
     this.waitForPlaylist = function(){
-        console.log("waitForPlaylist Work....");
         setTimeout(function(){
             if( this.update ){
               this.applyUpdate();
-              // Por que el applyUpdate establece el index en -1
+              //Por que el applyUpdate establece el index en -1
               this.index = 0;
               this.containerReady();
             }else{
@@ -72,6 +103,12 @@
         }.bind(this),5000);
     }
     // =========================================================================
+    /**
+     * @function setPlaylistUpdate
+     * @description - function que recibe el nuevo listado de url
+     * para reproducir y ademas del identificador del playlist
+     * @return void
+     * */
     this.setPlaylistUpdate = function( newPlaylist , id ){
        _is.isArray(newPlaylist,function(value){
          this.update = true;
@@ -80,6 +117,12 @@
        }.bind(this));
     }
     // =========================================================================
+    /**
+     * @function applyUpdate
+     * @description - Function que se encarga de realizar la
+     * actualización efectiva del nuevo playlist recibido
+     * de la funcion setPlaylistUpdate
+     * */
     this.applyUpdate = function(){
       if( this.update ){
         this.index = -1;
@@ -89,10 +132,15 @@
         if( this.playlistLength() == 0 ){
           this.container.html('');
           this.waitForPlaylist();
-        }        
+        }
       }
     }
     // =========================================================================
+    /**
+     * @function play
+     * @description - Se encarga de acceder al tag video que tiene
+     * la clase css show para dar play a la reproducción del video
+     * */
     this.play = function(){
       var pShow = this.container.elem.querySelector("video.show");
       if( !_is.isNull(pShow) ){
