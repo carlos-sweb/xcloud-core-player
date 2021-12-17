@@ -1,5 +1,5 @@
 /*!!
- * Power Panel player.js <https://github.com/carlos-sweb/pp-player.js>
+ * Xcloud  core-player.js <https://github.com/carlos-sweb/xcloud-core-player>
  * @author Carlos Illesca
  * @version 1.0.0 (2021/12/17 19:07 PM)
  * Released under the MIT License

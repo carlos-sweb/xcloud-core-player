@@ -1,10 +1,10 @@
 {
-  "name": "pp-player",
+  "name": "xcloud-core-player",
   "version": "1.0.0",
   "description": "Mediaplayer support platlist - mode fullscreen",
-  "main": "pp-player.js",
+  "main": "xcloud-core-player.js",
   "scripts": {
-    "minJs": "",
+    "compile": "terser --output xcloud-core-player.min.js --compress --mangle --comments false -- xcloud-core-player.js",
     "minCss" : "minify pp-player-fullscreen.css > pp-player-fullscreen.min.css"
   },
   "repository": {
